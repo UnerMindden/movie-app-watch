@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import "./App.css"
 import MoviesList from "./MoviesList";
+import MoviesOMDB from "./MoviesOMDB";
 
 function App(props) {
   // const [title, setTitle] = useState("")
@@ -13,6 +14,7 @@ function App(props) {
 
   return (
     <>
+    {/* <MoviesOMDB /> */}
     <MoviesList />
       {/* <div id="yohoho" data-title={title}>
       </div>
