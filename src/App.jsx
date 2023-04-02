@@ -1,8 +1,9 @@
+import React from "react"
+import { Suspense } from "react";
 import { Link, Route, Routes, useParams } from "react-router-dom";
 import "./App.css"
-import ResultsComponent from "./components/ResultsComponent";
-import SearchComponent from "./components/SearchComponent";
-import MoviesList from "./MoviesList";
+
+const MoviesList = React.lazy(() => import("./MoviesList"));
 
 function App(props) {
   // const [title, setTitle] = useState("")
@@ -14,14 +15,9 @@ function App(props) {
   // }, [])
   return (
     <>
-      <nav className="flex justify-start space-x-2">
-        <Link to="/" className="text-gray-400 hover:text-gray-200">Home</Link>
-      </nav>
-      <SearchComponent />
-      <Routes>
-        <Route path="/" element={<MoviesList />} />
-        <Route path="search/:id" element={<ResultsComponent />} />
-      </Routes>
+      <Suspense fallback={<div>Please wait...</div>}>
+        <MoviesList />
+      </Suspense>
     </>
   );
 }

@@ -1,9 +1,7 @@
 import React, { useState } from 'react';
-import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 
-const SearchComponent = () => {
+const SearchComponent = ({ setError, setSearchResults, setCurrentMovies }) => {
     const [searchInp, setSearchInp] = useState("")
-    const [moviesList, setMoviesList] = useState([])
 
     const fetchSearchData = async () => {
         try {
@@ -16,22 +14,27 @@ const SearchComponent = () => {
             })
 
             const response = await fetching.json();
-            setMoviesList(response);
+            setSearchResults(response)
+            setCurrentMovies(response.films) // Update currentMovies state variable
             console.log(response);
 
-        } catch (e) {
-            console.log("err.", e)
+            if (response.films.length === 0) {
+                setError(true)
+            } else {
+                setError(false)
+            }
+
+        } catch (error) {
+            setError(true)
+            console.log("error fetching search data:", error)
         }
     }
 
-    const navigate = useNavigate()
-
     function handleSubmit(e) {
         e.preventDefault()
-
-        navigate(`search/${searchInp}`)
-        
+        fetchSearchData() // Call the search function when the form is submitted
     }
+
 
     return (
         <>
@@ -48,21 +51,6 @@ const SearchComponent = () => {
                         onChange={(e) => setSearchInp(e.target.value)} value={searchInp} />
                 </form>
             </div>
-            {moviesList.films?.map((it, idx) => (
-                <div key={idx} className="flex border border-gray-800">
-                    <div id="img-min" className="mb-5 ml-5">
-                        <img className="w-20" src={it.posterUrlPreview} />
-                    </div>
-                    <div className="ml-4">
-                        <h3 className="text-2xl">{it.nameRu}</h3>
-                        <p>{it.nameEn ? it.nameEn : it.nameRu}, {it.year}, {it.filmLength}</p>
-                        <p>{it.countries[0].country}, {it.genres[0].genre}</p>
-                    </div>
-                    <div className="text-center absolute right-5">
-                        <p className="mb-2">{it.rating}</p>
-                    </div>
-                </div>
-            ))}
         </>
     );
 };
