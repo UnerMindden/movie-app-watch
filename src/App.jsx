@@ -1,7 +1,8 @@
-import { useEffect, useState } from "react";
+import { Link, Route, Routes, useParams } from "react-router-dom";
 import "./App.css"
+import ResultsComponent from "./components/ResultsComponent";
+import SearchComponent from "./components/SearchComponent";
 import MoviesList from "./MoviesList";
-import MoviesOMDB from "./MoviesOMDB";
 
 function App(props) {
   // const [title, setTitle] = useState("")
@@ -11,14 +12,16 @@ function App(props) {
   //   document.body.appendChild(script)
   //   return () => { document.body.removeChild(script) }
   // }, [])
-
   return (
     <>
-    {/* <MoviesOMDB /> */}
-    <MoviesList />
-      {/* <div id="yohoho" data-title={title}>
-      </div>
-      <script src="//yohoho.cc/yo.js"></script> */}
+      <nav className="flex justify-start space-x-2">
+        <Link to="/" className="text-gray-400 hover:text-gray-200">Home</Link>
+      </nav>
+      <SearchComponent />
+      <Routes>
+        <Route path="/" element={<MoviesList />} />
+        <Route path="search/:id" element={<ResultsComponent />} />
+      </Routes>
     </>
   );
 }

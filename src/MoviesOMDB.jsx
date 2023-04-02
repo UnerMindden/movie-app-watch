@@ -16,6 +16,7 @@ function MoviesOMDB(props) {
 
     return (
         <div>
+        <h1>Hello</h1>
             <input onKeyPress={(e) => {
                 if (e.key == "Enter") {
                     fetchData()
@@ -27,7 +28,6 @@ function MoviesOMDB(props) {
             <div>
                 {dataMovie.Title}
                 <img src={dataMovie.Poster} />
-                <a href={`https://`}>Смотреть бесплатно</a>
             </div>
         </div>
     );
